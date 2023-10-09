@@ -11,7 +11,7 @@ import 'package:todo_app_firebase/Auth/Login_page/login_page_main.dart';
 import 'package:todo_app_firebase/Constant/app_style.dart';
 import 'package:form_validation/form_validation.dart';
 import 'package:todo_app_firebase/Model/user_info.dart';
-import 'package:todo_app_firebase/User_Detail_Pages/page1.dart';
+// import 'package:todo_app_firebase/User_Detail_Pages/page1.dart';
 import 'package:todo_app_firebase/View/home_page.dart';
 import '../../Widget/small_widget.dart';
 import '../../Widget/text_field_widget.dart';
@@ -278,11 +278,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 textDirection: TextDirection.rtl,
                 children: [
                   InkWell(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        )),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ));
+                    },
                     child: AutoSizeText("LOGIN",
                         style: GoogleFonts.tiroBangla(
                           textStyle: const TextStyle(

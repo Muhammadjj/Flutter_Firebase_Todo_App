@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Todo: implement initState
     super.initState();
     controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 5))
+        AnimationController(vsync: this, duration: const Duration(seconds: 3))
           ..addStatusListener((status) {
             if (status == AnimationStatus.completed) {
               controller.reverse();
@@ -35,10 +35,10 @@ class _SplashScreenState extends State<SplashScreen>
     offset = Tween(begin: const Offset(0.0, 0.0), end: const Offset(0.0, 0.1))
         .animate(controller);
     controller.forward();
-    suretyLogin();
+    confirmLogin();
   }
 
-  suretyLogin() {
+  confirmLogin() {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? current = auth.currentUser;
     if (current != null) {
@@ -86,8 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
             child: const SizedBox(
                 height: 300,
                 width: 300,
-                child: Image(
-                    image: AssetImage("assest/images/splash_screen.png"))),
+                child: Image(image: AssetImage(splashImage))),
           ),
         ),
       ),

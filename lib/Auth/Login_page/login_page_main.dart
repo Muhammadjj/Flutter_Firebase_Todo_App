@@ -65,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Gap(height * 0.01),
               Center(
                 child: SizedBox(
-                  height: height * 0.15,
-                  width: width * 0.4,
+                  height: height * 0.2,
+                  width: width * 0.6,
                   child: const Image(
                       image: AssetImage(
                         todoImage,
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const SignUpScreen(),

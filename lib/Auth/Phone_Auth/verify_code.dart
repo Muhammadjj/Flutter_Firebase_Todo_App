@@ -43,61 +43,62 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     var height = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
+        backgroundColor: screenColors,
         body: Center(
-      child: Form(
-        key: key,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AuthTextField(
-              maxLength: 6,
-              controller: verifyCode,
-              hintText: "Enter Verify Code",
-              validator: (value) {
-                if (value.isEmpty) {
-                  return "Please Enter Your Verify Code.";
-                }
-                final validator = Validator(
-                  validators: [const MinNumberValidator(number: 20)],
-                );
-                return validator.validate(
-                  label: 'Required',
-                  value: value,
-                );
-              },
-            ),
-            Gap(height * 0.07),
-            beautifulButton(
-              color: cupertinoButtonColor,
-              text: "VERIFY CODE",
-              loading: loading,
-              onPressed: () async {
-                if (key.currentState!.validate()) {
-                  setState(() => loading = true);
-                  final credential = PhoneAuthProvider.credential(
-                      verificationId: widget.id.toString(),
-                      smsCode: verifyCode.text.toString());
-                  await auth.signInWithCredential(credential).then((value) {
-                    Utils().toast("Successfully Verify");
-                    setState(() => loading = false);
+          child: Form(
+            key: key,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AuthTextField(
+                  maxLength: 6,
+                  controller: verifyCode,
+                  hintText: "Enter Verify Code",
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Please Enter Your Verify Code.";
+                    }
+                    final validator = Validator(
+                      validators: [const MinNumberValidator(number: 20)],
+                    );
+                    return validator.validate(
+                      label: 'Required',
+                      value: value,
+                    );
+                  },
+                ),
+                Gap(height * 0.07),
+                beautifulButton(
+                  color: cupertinoButtonColor,
+                  text: "VERIFY CODE",
+                  loading: loading,
+                  onPressed: () async {
+                    if (key.currentState!.validate()) {
+                      setState(() => loading = true);
+                      final credential = PhoneAuthProvider.credential(
+                          verificationId: widget.id.toString(),
+                          smsCode: verifyCode.text.toString());
+                      await auth.signInWithCredential(credential).then((value) {
+                        Utils().toast("Successfully Verify");
+                        setState(() => loading = false);
 
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ));
-                  }).onError((error, stackTrace) {
-                    setState(() => loading = false);
-                    Utils().toast("Error : ${error.toString()}");
-                  });
-                  debugPrint("Successfully Verify");
-                }
-              },
-            )
-          ],
-        ),
-      ),
-    ));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ));
+                      }).onError((error, stackTrace) {
+                        setState(() => loading = false);
+                        Utils().toast("Error : ${error.toString()}");
+                      });
+                      debugPrint("Successfully Verify");
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

@@ -37,13 +37,19 @@ class _LoginPhoneAuthState extends State<LoginPhoneAuth> {
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      body: Center(
+      backgroundColor: screenColors,
+      body: SafeArea(
         child: Form(
           key: key,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+                  height: height * 0.4,
+                  width: double.infinity,
+                  child: const Image(image: AssetImage(phoneImage))),
+              Gap(height * 0.1),
               AuthTextField(
                 keyboardType: TextInputType.phone,
                 hintText: "Country Code And Phone Number.",
@@ -76,7 +82,7 @@ class _LoginPhoneAuthState extends State<LoginPhoneAuth> {
                         debugPrint("Phone Auth Error : ${error.toString()}");
                       },
                       codeSent: (verificationId, forceResendingToken) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
