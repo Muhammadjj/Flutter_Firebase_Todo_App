@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app_firebase/Auth/Pages/Splash_Screen/splash_screen_main.dart';
 import 'package:todo_app_firebase/Constant/app_style.dart';
-
 // import 'Auth/SignUp_Page/sign_up_page_main.dart';
 // import 'package:todo_app_firebase/View/home_page.dart';
 
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FirebaseAuth auth = FirebaseAuth.instance;
     return ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -36,7 +34,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        // home: const HomePage(),
         home: const SplashScreen(),
       ),
     );

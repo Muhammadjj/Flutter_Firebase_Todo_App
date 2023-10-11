@@ -8,7 +8,10 @@ class AuthTextField extends StatelessWidget {
       required this.controller,
       this.maxLength,
       this.maxLines,
-      this.keyboardType});
+      this.keyboardType,
+      this.obscureText = false,
+      this.suffixIcon,
+      this.obscuringCharacter = "*"});
 
   final FormFieldValidator? validator;
   final String hintText;
@@ -16,6 +19,9 @@ class AuthTextField extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final TextInputType? keyboardType;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final String obscuringCharacter;
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
@@ -25,6 +31,8 @@ class AuthTextField extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.grey.shade200),
       child: TextFormField(
+          obscureText: obscureText,
+          obscuringCharacter: obscuringCharacter,
           validator: validator,
           controller: controller,
           maxLength: maxLength,
@@ -34,6 +42,7 @@ class AuthTextField extends StatelessWidget {
               focusedBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
               hintText: hintText,
+              suffixIcon: suffixIcon,
               hintStyle: const TextStyle(
                 fontWeight: FontWeight.w400,
               ))),

@@ -1,17 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:todo_app_firebase/Auth/Login_page/login_page_main.dart';
 import 'package:todo_app_firebase/Constant/app_style.dart';
 import 'package:form_validation/form_validation.dart';
 import 'package:todo_app_firebase/Model/user_info.dart';
-// import 'package:todo_app_firebase/User_Detail_Pages/page1.dart';
+import 'package:todo_app_firebase/Provider/check_password_provider.dart';
 import 'package:todo_app_firebase/View/home_page.dart';
 import '../../Widget/small_widget.dart';
 import '../../Widget/text_field_widget.dart';
@@ -19,26 +19,29 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   GlobalKey<FormState> key = GlobalKey<FormState>();
 
+  // TextEditingController
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneNoController = TextEditingController();
 
+  // Firebase Objects .
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   bool loading = false;
 
+  // All Objects Image Picker .
   File? images;
   final imagePicker = ImagePicker();
   String? getDownloadURL;
@@ -80,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
     var width = MediaQuery.sizeOf(context).width;
-
+    final passwordProvider = ref.watch(passwordChecking);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: screenColors,
@@ -185,7 +188,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Gap(height * 0.06),
               AuthTextField(
                 controller: passwordController,
-                hintText: "Enter Your Password .",
+                hintText: "Enter Your Strong Password.",
+                maxLines: 1,
+                obscureText: passwordProvider,
+                // password checking Hide password / UnHide
+                suffixIcon: InkWell(
+                    onTap: () {
+                      if (passwordProvider == false) {
+                        ref
+                            .read(passwordChecking.notifier)
+                            .update((state) => true);
+                      } else {
+                        ref
+                            .read(passwordChecking.notifier)
+                            .update((state) => false);
+                      }
+                    },
+                    child: passwordProvider
+                        ? const Icon(Icons.remove_red_eye)
+                        : const Icon(Icons.remove_red_eye_outlined)),
+                // password Validation .
                 validator: (value) {
                   if (value.isEmpty) {
                     return "Please Enter Your Password.";

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_validation/form_validation.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,25 +9,29 @@ import 'package:todo_app_firebase/Auth/Google_Button_Page/google_button.dart';
 import 'package:todo_app_firebase/Auth/Phone_Auth/login_phone_auth.dart';
 import 'package:todo_app_firebase/Auth/SignUp_Page/sign_up_page_main.dart';
 import 'package:todo_app_firebase/Constant/app_style.dart';
+import 'package:todo_app_firebase/Provider/check_password_provider.dart';
 import 'package:todo_app_firebase/View/home_page.dart';
 import '../../Widget/small_widget.dart';
 import '../../Widget/text_field_widget.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  // Global Key
   GlobalKey<FormState> key = GlobalKey<FormState>();
-
+  //  TextEditingController
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
+  // Firebase Objects
   FirebaseAuth auth = FirebaseAuth.instance;
+  // Check this CircularProgressBar / Login Text
   bool loading = false;
 
   @override
@@ -49,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loginPasswordCheck = ref.watch(passwordChecking);
     var height = MediaQuery.sizeOf(context).height;
     var width = MediaQuery.sizeOf(context).width;
     return Scaffold(
@@ -96,8 +102,28 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Gap(height * 0.06),
               AuthTextField(
+                maxLines: 1,
                 controller: passwordController,
                 hintText: "Enter Your Password .",
+                obscureText: loginPasswordCheck,
+                // password checking Hide password / UnHide
+                suffixIcon: InkWell(
+                  onTap: () {
+                    if (loginPasswordCheck == false) {
+                      ref
+                          .read(passwordChecking.notifier)
+                          .update((state) => true);
+                    } else {
+                      ref
+                          .read(passwordChecking.notifier)
+                          .update((state) => false);
+                    }
+                  },
+                  child: loginPasswordCheck
+                      ? const Icon(Icons.remove_red_eye)
+                      : const Icon(Icons.remove_red_eye_outlined),
+                ),
+                // password Validation .
                 validator: (value) {
                   if (value.isEmpty) {
                     return "Please Enter Your Password.";
@@ -216,3 +242,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+/**
+ * 
+ * 
+
+
+    
+ * 
+ * 
+ */

@@ -35,6 +35,10 @@ class _SplashScreenState extends State<SplashScreen>
     offset = Tween(begin: const Offset(0.0, 0.0), end: const Offset(0.0, 0.1))
         .animate(controller);
     controller.forward();
+
+    /// Confirm Email Authentication Complete and Open this Page HomeScreen .
+    /// otherVise do'nt Email Authentication Complete Open this Page Login Screen
+    /// All check current user Authentication FireStore . Thats it.
     confirmLogin();
   }
 
