@@ -1,4 +1,22 @@
-# todo_app_firebase
+# todo_app_firebase Awesome Design .
+This app all working is Firebase . 
+This App Contain All Types of Authentication, firestore and mush more .
+Authentication => 
+1) SignUp and Login Authentication .
+2) Google Authentication .
+3) Phone Authentication .
+
+FireStore => 
+First One All Todo Insert Cards store FireStore and User all about info store this
+Firestore .
+
+FireBase Storage => 
+FireBase Storage identify cuurrent app images and more data store first of all
+store this images Here Todo App Pick Photo Gallery and Save data firebaseStorage
+and from this data store Firebase firestore .
+And all images fetch this Todo app Profile Page data firebase FireStore . 
+
+                                                                  Thanks .
 
 A new Flutter project.
 
